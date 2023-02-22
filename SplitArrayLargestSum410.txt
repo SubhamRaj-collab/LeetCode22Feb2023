@@ -1,0 +1,59 @@
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        
+        int n = nums.length;
+
+        int max = 0;
+        int total = 0;
+
+        for(int num: nums)
+        {
+            total += num;
+            max = Math.max(max, num);
+        }
+
+        int start = max;
+        int end = total;
+
+        int res = Integer.MAX_VALUE;
+
+        while(start <= end)
+        {
+            int mid = start+(end-start)/2;
+
+            if(isPossible(nums, mid, n, k))
+            {
+                res = Math.min(res, mid);
+                end = mid-1;
+            }
+            else
+            {
+                start = mid+1;
+            }
+
+        }
+
+        return res;
+
+    }
+
+    public boolean isPossible(int nums[], int sum, int n, int k)
+    {
+        int total = 0;
+        int splits = 0;
+
+        for(int i = 0; i < n; i++)
+        {
+            total += nums[i];
+            if(total > sum)
+            {
+                total = nums[i];
+                splits++;
+            }
+        }
+        splits++;
+
+        return (splits <= k)?true:false;
+    }
+
+}
